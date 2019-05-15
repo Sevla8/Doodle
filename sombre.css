@@ -1,0 +1,19 @@
+#bandeauCookies {
+    position:fixed;
+    left:0;
+    right:0;
+    padding:30px;
+    background-color:red;
+    bottom:0;
+    color:white;
+    text-align: center;
+}
+body {
+    padding-left:30%;
+    padding-right:30%;
+    background-color: black;
+    color:white;
+}
+a {
+    color: #ADD8E6;
+}
