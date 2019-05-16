@@ -34,6 +34,11 @@ function randomCode() {
 function creerDoodle($nom_createur, $nom_sondage, $commentaire, $valeur) {
 	global $bdd;//	return $doodleCode;
 	$id = randomCode();
+	echo $nom_createur.'<br>';
+	echo $nom_sondage.'<br>'; 
+	echo $commentaire.'<br>';
+	echo $valeur.'<br>';
+	echo $id;
 	$query = $bdd->prepare('INSERT INTO sondage(id, nom_createur, nom_sondage, commentaire, valeur) VALUES (?, ?, ?, ?, ?)');
 	$query->execute(array($id, $nom_createur, $nom_sondage, $commentaire, $valeur));
 	return $id;

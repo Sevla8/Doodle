@@ -2,10 +2,12 @@
 include("header.php");
 
 if (isset($_POST['submit']) && (!isset($_POST['pseudo']) || strlen($_POST['pseudo']) == 0) ||
-	sizeof(recupererDoodle($_GET['doodleCode'])) == 0) {
+	!recupererDoodle($_GET['doodleCode'])) {
 	echo 'erreur';
 	exit();
 }
+
+echo recupererDoodle($_GET['doodleCode']);
 
 if (isset($_POST['pseudo']) && isset($_POST['submit'])) {
 	$_POST['pseudo'] = htmlspecialchars($_POST['pseudo']);
@@ -25,7 +27,6 @@ if (isset($_POST['pseudo']) && isset($_POST['submit'])) {
 $dood = recupererDoodle($_GET['doodleCode']);
 $dood['valeur'] = json_decode($dood['valeur']);
 $rep = recupererReponses($_GET['doodleCode']);
-
 $rep['reponse'] = json_decode($rep['reponse']);
 ?>
 <h1>Bienvenue sur le doodle "<?php if (isset($dood['nom_sondage'])) echo $dood['nom_sondage'] ?>" créé par "<?php if(isset($dood['nom_createur'])) echo $dood['nom_createur'] ?>" !</h1>
@@ -34,15 +35,16 @@ $rep['reponse'] = json_decode($rep['reponse']);
 	<tr>
 		<th> Pseudo </th>
 		<?php
-		foreach ($dood['valeur'] as $key => $value)
+		foreach ($dood['valeur'] as $value) {
 			echo '<th>'.$value.'</th>';
+		}
 		?>
 	</tr>
 	<?php
 	foreach ($rep as $key => $value) {
 		echo '<tr>';
 		echo '<td>'.$value['pseudo'].'</td>';
-		foreach ($value['reponse'] as $key => $value1)
+		foreach ($value['reponse'] as $value1)
 			echo '<td>'.$value1.'</td>';
 		echo '</tr>';
 	}

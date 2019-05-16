@@ -1,7 +1,8 @@
 <?php
 include("header.php");
 
-if (isset($_POST['createurName']) &&
+if (isset($_POST['submit']) &&
+	isset($_POST['createurName']) &&
 	isset($_POST['sondageName']) &&
     isset($_POST['val-0'])) {
 
@@ -22,10 +23,7 @@ if (isset($_POST['createurName']) &&
 		$i += 1;
 	}
 	$val = json_encode($tmp);
-// echo $_POST['createurName'].'<br>';
-// echo $_POST['sondageName'].'<br>';
-// echo $_POST['commentaire'].'<br>'; 
-// echo $val;
+
 	$_SESSION['doodleCode'] = creerDoodle($_POST['createurName'], $_POST['sondageName'], $_POST['commentaire'], $val);
 }
 ?>
@@ -46,7 +44,7 @@ Créer un nouveau doodle :
 	</div>
 	<a onclick="addValue()" href=#>Ajouter une valeur</a>
 	</fieldset>
-	<input type="submit">
+	<input type="submit" name="submit">
 </form>
 <a href="index.php">Retour</a> à la page d'accueil.
 <script>
