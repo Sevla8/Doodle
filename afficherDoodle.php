@@ -30,8 +30,8 @@ for ($i = 0; $i < sizeof($rep); $i += 1) {
 }
 ?>
 <h1>Bienvenue sur le doodle "<?php if (isset($dood['nom_sondage'])) echo $dood['nom_sondage'] ?>" créé par "<?php if(isset($dood['nom_createur'])) echo $dood['nom_createur'] ?>" !</h1>
-<div>Description : </div>
-<table id="reponses">
+<div>Description : <?php echo $dood['commentaire']; ?></div>
+<table id="reponsesDiv">
 	<tr>
 		<th> Pseudo </th>
 		<?php
@@ -61,18 +61,18 @@ for ($i = 0; $i < sizeof($rep); $i += 1) {
 </table>
 
 <script>
-	<?php echo 'x = '.$_GET['doodleCode']; ?>
+	<?php echo 'x = "'.$_GET['doodleCode'].'"'; ?>
 
 	function get() {
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', 'Ajax.php', true);
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-				document.querySelector("#reponses").innerHTML=xhr.responseText;
+				document.querySelector("#reponsesDiv").innerHTML=xhr.responseText;
 			}
 		});
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.send('id='+x);
+		xhr.send('doodleCode='+x);
 	}
 	setInterval(get, 60000);
 </script>
