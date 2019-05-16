@@ -3,7 +3,7 @@ global $bdd;
 // Remplissez vos identifiants pour vous connecter à votre propre base de donnée.
 
 try {
-    $bdd = new PDO('mysql:localhost;dbname=test;charset=utf8', 'root', '');
+    $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
 }
 catch(Exception $exception) {
     die('Erreur : '.$exception->getMessage());
@@ -34,11 +34,6 @@ function randomCode() {
 function creerDoodle($nom_createur, $nom_sondage, $commentaire, $valeur) {
 	global $bdd;//	return $doodleCode;
 	$id = randomCode();
-	echo $nom_createur.'<br>';
-	echo $nom_sondage.'<br>'; 
-	echo $commentaire.'<br>';
-	echo $valeur.'<br>';
-	echo $id;
 	$query = $bdd->prepare('INSERT INTO sondage(id, nom_createur, nom_sondage, commentaire, valeur) VALUES (?, ?, ?, ?, ?)');
 	$query->execute(array($id, $nom_createur, $nom_sondage, $commentaire, $valeur));
 	return $id;
@@ -51,10 +46,10 @@ function creerDoodle($nom_createur, $nom_sondage, $commentaire, $valeur) {
 /* Cette fonction crée une entrée dans la table des réponses
     Elle prend en entrée un pseudo, et un tableau contenant les réponses dans l'ordre
     Elle retourne true si tout a marché, false sinon. */
-function creerReponse($id_sondage, $pseudo, $reponse) {
+function creerReponse($id_sondage, $pseudo, $valeur) {
 	global $bdd;//	return true;
-	$query = $bdd->prepare('INSERT INTO reponse(id_sondage, pseudo, reponse) VALUES (?, ?, ?)');
-	$query->execute(array($id_sondage, $pseudo, $reponse));
+	$query = $bdd->prepare('INSERT INTO reponse(id_sondage, pseudo, valeur) VALUES (?, ?, ?)');
+	$query->execute(array($id_sondage, $pseudo, $valeur));
 	return true;
 }
 

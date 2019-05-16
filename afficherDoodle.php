@@ -7,8 +7,6 @@ if (isset($_POST['submit']) && (!isset($_POST['pseudo']) || strlen($_POST['pseud
 	exit();
 }
 
-echo recupererDoodle($_GET['doodleCode']);
-
 if (isset($_POST['pseudo']) && isset($_POST['submit'])) {
 	$_POST['pseudo'] = htmlspecialchars($_POST['pseudo']);
 	$i = 0;
@@ -21,13 +19,15 @@ if (isset($_POST['pseudo']) && isset($_POST['submit'])) {
 		$i += 1;
 	}
 	$val = json_encode($tmp);
-	creerReponse($_GET['id'], $_POST['pseudo'], $val);
+	creerReponse($_GET['doodleCode'], $_POST['pseudo'], $val);
 }
 
 $dood = recupererDoodle($_GET['doodleCode']);
 $dood['valeur'] = json_decode($dood['valeur']);
 $rep = recupererReponses($_GET['doodleCode']);
-$rep['reponse'] = json_decode($rep['reponse']);
+for ($i = 0; $i < sizeof($rep); $i += 1) { 
+	$rep[$i]['valeur'] = json_decode($rep[$i]['valeur']);
+}
 ?>
 <h1>Bienvenue sur le doodle "<?php if (isset($dood['nom_sondage'])) echo $dood['nom_sondage'] ?>" créé par "<?php if(isset($dood['nom_createur'])) echo $dood['nom_createur'] ?>" !</h1>
 <div>Description : </div>
@@ -44,17 +44,16 @@ $rep['reponse'] = json_decode($rep['reponse']);
 	foreach ($rep as $key => $value) {
 		echo '<tr>';
 		echo '<td>'.$value['pseudo'].'</td>';
-		foreach ($value['reponse'] as $value1)
+		foreach ($value['valeur'] as $value1)
 			echo '<td>'.$value1.'</td>';
 		echo '</tr>';
 	}
 	?>
-
 	<tr class="newAnswer">
 	<form method="post">  
 	<td><input name="pseudo" type="text"/></td>
-	<?php for ($i = 0; $i < sizeof(explode('|', $dood['valeur'])) - 1; $i += 1) { ?>
-		<td><select name="val-<?php echo $i ?>"><option value="oui">Oui</option><option value="mais">Oui Mais</option><option value="non">Non</option></select></td>
+	<?php for ($i = 0; $i < sizeof($dood['valeur']); $i += 1) { ?>
+		<td><select name="val-<?php echo $i ?>"><option value="oui">Oui</option><option value="oui mais">Oui Mais</option><option value="non">Non</option></select></td>
 	<?php } ?>
 	<td><input type="submit" name="submit"></td>
 	</form>
