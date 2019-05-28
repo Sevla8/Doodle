@@ -11,6 +11,11 @@ if (isset($_POST['style'])) {
 		$_SESSION['style'] = 'style2';
 }
 
+if(isset($_GET["cookieLover"])) {
+	setcookie("cookieLover", "true");
+	$_COOKIE["cookieLover"]="true";
+}
+
 include("model.php");
 ?>
 
